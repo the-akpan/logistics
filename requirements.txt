@@ -1,0 +1,19 @@
+Pages:
+  Home: LandingPage
+  - Reference Provided
+  - Contains sections explaining the business
+  - Has a search field for tracking orders
+  Track:
+  - Displays order info (related to tracking)
+  - Displays error if order not found
+  404:
+  - Shown when page not found
+  Login:
+  - Used to login to the cms panel
+  ForgotPassword:
+  - Self explanatory
+  ResetPassword:
+  - Self explanatory
+  Dashboard:
+  - Perform CRUD on all orders
+  - Logout
