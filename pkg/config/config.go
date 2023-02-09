@@ -91,7 +91,7 @@ func getAdmin() *User {
 
 func loadStatic() *Static {
 	return &Static{
-		IndexPath:  os.Getenv("STATIC_FOLDER"),
-		StaticPath: os.Getenv("INDEX_FILE"),
+		StaticPath: os.Getenv("STATIC_FOLDER"),
+		IndexPath:  os.Getenv("INDEX_FILE"),
 	}
 }

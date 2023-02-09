@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"time"
@@ -14,6 +15,13 @@ import (
 func main() {
 	// setup project config
 	config.Init()
+	db := config.Get().Db
+
+	defer func() {
+		if err := db.Client().Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
 
 	// initialize models
 	models.Init()

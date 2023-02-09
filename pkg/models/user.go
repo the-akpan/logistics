@@ -29,7 +29,8 @@ func initUsers(db *mongo.Database) {
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			log.Println("Admin not found")
-			coll.CreateUser(admin.Email, admin.Password)
+			_, err := coll.CreateUser(adminDetails.Email, adminDetails.Password)
+			log.Println(err)
 		} else {
 			log.Fatal(err)
 		}
@@ -66,10 +67,11 @@ func (coll *UserCollection) CreateUser(email, password string) (*User, error) {
 		}
 	}
 
-	user = User{Email: email, createdAt: time.Now()}
+	user = User{Email: email, CreatedAt: time.Now()}
 	user.MakePassword(password)
 
 	_, err = coll.InsertOne(context.TODO(), user)
+
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +82,7 @@ func (coll *UserCollection) CreateUser(email, password string) (*User, error) {
 // User
 type User struct {
 	Email     string    `json:"email" bson:"email"`
-	createdAt time.Time `bson:"createdAt"`
+	CreatedAt time.Time `bson:"createdAt"`
 	Password  string    `json:"-" bson:"password"`
 }
 

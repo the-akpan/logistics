@@ -40,10 +40,9 @@ func (handler spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func Init(router *mux.Router) {
 
 	api := router.PathPrefix("/api").Subrouter()
-	frontend := router.PathPrefix("/").Subrouter()
 
 	spa := spaHandler{staticPath: config.Get().Static.StaticPath, indexFile: config.Get().Static.IndexPath}
-	frontend.Handle("/*", spa)
+	router.PathPrefix("/").Handler(spa)
 
 	registerAuth(api)
 }
