@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/gorilla/mux v1.8.0
+	github.com/gorilla/securecookie v1.1.1
 	github.com/joho/godotenv v1.5.1
 	go.mongodb.org/mongo-driver v1.11.1
 	golang.org/x/crypto v0.6.0
@@ -12,7 +13,6 @@ require (
 require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
