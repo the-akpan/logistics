@@ -18,6 +18,6 @@ func Init(router *mux.Router) {
 		indexFile:  config.Get().Static.IndexPath,
 	}
 	frontend := router.PathPrefix("/").Subrouter()
-	frontend.HandleFunc("/", spa.ServeHTTP)
+	frontend.HandleFunc("", spa.ServeHTTP)
 	frontend.NotFoundHandler = http.HandlerFunc(spa.ServeHTTP)
 }

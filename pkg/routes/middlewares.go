@@ -10,7 +10,9 @@ import (
 
 func RemoveSlash(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		req.URL.Path = strings.TrimSuffix(req.URL.Path, "/")
+		if req.URL.Path != "/" || strings.HasPrefix(req.URL.Path, "/assets") {
+			req.URL.Path = strings.TrimSuffix(req.URL.Path, "/")
+		}
 		next.ServeHTTP(res, req)
 	})
 }
