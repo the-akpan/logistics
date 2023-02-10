@@ -30,7 +30,7 @@ func main() {
 	routes.Init(router)
 
 	server := &http.Server{
-		Handler:      router,
+		Handler:      routes.RemoveSlash(router),
 		Addr:         config.Get().PORT,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

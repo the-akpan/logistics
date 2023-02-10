@@ -1,7 +1,5 @@
 FROM node:16-alpine as frontend
 
-ENTRYPOINT [ "executable" ]
-
 WORKDIR /app
 
 COPY client/package*.json .

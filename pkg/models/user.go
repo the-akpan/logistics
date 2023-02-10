@@ -79,6 +79,13 @@ func (coll *UserCollection) CreateUser(email, password string) (*User, error) {
 	return &user, nil
 }
 
+func (coll *UserCollection) UpdateUser(user User) error {
+	filter := bson.D{{Key: "email", Value: user.Email}}
+	update := bson.D{{Key: "$set", Value: bson.D{{Key: "password", Value: user.Password}}}}
+	_, err := coll.UpdateOne(context.TODO(), filter, update)
+	return err
+}
+
 // User
 type User struct {
 	Email     string    `json:"email" bson:"email"`

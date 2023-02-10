@@ -2,40 +2,36 @@ package controllers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
-	"regexp"
+	"tracka/pkg/config"
 	"tracka/pkg/models"
 	"tracka/pkg/utils"
 )
 
 func AuthSignin(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("Content-Type", "application/json")
-	response := Response{}
+	response := utils.CreateResponse(res)
 
-	defer json.NewEncoder(res).Encode(&response)
+	defer json.NewEncoder(res).Encode(response)
 
-	var loginForm struct {
+	var formStruct struct {
 		Email, Password string
 	}
 
-	err := json.NewDecoder(req.Body).Decode(&loginForm)
-	if err != nil {
-		response.Message = "Error Decoding Values " + err.Error()
-		res.WriteHeader(http.StatusBadRequest)
+	if !utils.DecodeRequest(&formStruct, response, res, req) {
 		return
 	}
 
 	data := make(map[string]interface{})
-	emailRX := regexp.MustCompile(`^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$`)
 
-	switch email := loginForm.Email; {
+	switch email := formStruct.Email; {
 	case email == "":
 		data["email"] = fieldRequired
 	case !emailRX.MatchString(email):
 		data["email"] = "Invalid email"
 	}
 
-	if loginForm.Password == "" {
+	if formStruct.Password == "" {
 		data["password"] = fieldRequired
 	}
 
@@ -46,8 +42,8 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	user, err := models.UserColl().GetUser(loginForm.Email)
-	if err != nil || !user.CheckPassword(loginForm.Password) {
+	user, err := models.UserColl().GetUser(formStruct.Email)
+	if err != nil || !user.CheckPassword(formStruct.Password) {
 		response.Message = "Invalid credentials"
 		res.WriteHeader(http.StatusUnauthorized)
 		return
@@ -61,4 +57,86 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 	response.Message = "Logged in successfully"
 	response.Data = user
 	res.WriteHeader(http.StatusOK)
+}
+
+func AuthLogout(res http.ResponseWriter, req *http.Request) {
+	log.Println("Hello")
+	response := utils.CreateResponse(res)
+
+	defer json.NewEncoder(res).Encode(response)
+
+	res.WriteHeader(http.StatusNoContent)
+	response.Message = "Logged out successfully"
+}
+
+func AuthRequestReset(res http.ResponseWriter, req *http.Request) {
+	response := utils.CreateResponse(res)
+
+	defer json.NewEncoder(res).Encode(response)
+
+	var formStruct struct {
+		Email string
+	}
+
+	if !utils.DecodeRequest(formStruct, response, res, req) {
+		return
+	}
+
+	data := make(map[string]interface{})
+
+	switch email := formStruct.Email; {
+	case email == "":
+		data["email"] = fieldRequired
+	case !emailRX.MatchString(email):
+		data["email"] = "Invalid email"
+	}
+
+	response.Message = "Reset email sent if user exists"
+	res.WriteHeader(http.StatusOK)
+
+	_, err := models.UserColl().GetUser(formStruct.Email)
+	if err == nil {
+		// Send email
+		log.Println("Sending email to", formStruct.Email)
+	}
+}
+
+func AuthResetPassword(res http.ResponseWriter, req *http.Request) {
+	response := utils.CreateResponse(res)
+
+	defer json.NewEncoder(res).Encode(response)
+
+	var formStruct struct {
+		Email string
+	}
+
+	if !utils.DecodeRequest(&formStruct, response, res, req) {
+		return
+	}
+
+	data := make(map[string]interface{})
+
+	switch email := formStruct.Email; {
+	case email == "":
+		data["email"] = fieldRequired
+	case !emailRX.MatchString(email):
+		data["email"] = "Invalid email"
+	}
+
+	response.Message = "Password reset to default if user exists"
+	res.WriteHeader(http.StatusOK)
+
+	user, err := models.UserColl().GetUser(formStruct.Email)
+	if err != nil {
+		return
+	}
+
+	defaultPasswod := config.Get().Admin.Password
+	user.MakePassword(defaultPasswod)
+
+	err = models.UserColl().UpdateUser(*user)
+	if err != nil {
+		response.Message = "Something went wrong"
+		res.WriteHeader(http.StatusInternalServerError)
+	}
 }
