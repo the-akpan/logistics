@@ -34,7 +34,7 @@ func OrdersList(res http.ResponseWriter, req *http.Request) {
 
 	orders, err := database.OrderColl().GetOrders(page, limit)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
+		if err != mongo.ErrNoDocuments {
 			response.Message = "Something went wrong" + err.Error()
 			res.WriteHeader(http.StatusInternalServerError)
 			return
