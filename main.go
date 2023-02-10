@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 	"tracka/pkg/config"
-	"tracka/pkg/models"
+	"tracka/pkg/database"
 	"tracka/pkg/routes"
 
 	"github.com/gorilla/mux"
@@ -24,7 +24,7 @@ func main() {
 	}()
 
 	// initialize models
-	models.Init()
+	database.Init()
 
 	router := mux.NewRouter()
 	routes.Init(router)

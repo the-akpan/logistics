@@ -9,7 +9,6 @@ import (
 
 func Init(router *mux.Router) {
 	api := router.PathPrefix("/api").Subrouter()
-	api.StrictSlash(false)
 	api.NotFoundHandler = http.HandlerFunc(notFound)
 	registerAuth(api)
 

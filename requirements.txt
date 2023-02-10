@@ -17,3 +17,15 @@ Pages:
   Dashboard:
   - Perform CRUD on all orders
   - Logout
+
+API:
+  Auth:
+  - Login ✔️
+  - Logout ✔️
+  - Reset-Password ✔️
+  Dashboard:
+  - List Orders
+  - Add Order
+  - Edit Order
+  - List Order Updates
+  - Edit Order Updates

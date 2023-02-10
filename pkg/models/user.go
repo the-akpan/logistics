@@ -1,95 +1,17 @@
 package models
 
 import (
-	"context"
-	"log"
 	"time"
-	"tracka/pkg/config"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 )
 
-// User table
-type UserCollection struct {
-	*mongo.Collection
-}
-
-var coll *UserCollection
-
-func initUsers(db *mongo.Database) {
-	collection := db.Collection(collection)
-	coll = &UserCollection{collection}
-
-	var admin User
-	adminDetails := config.Get().Admin
-	query := bson.D{{Key: "email", Value: adminDetails.Email}}
-	err := coll.FindOne(context.Background(), query).Decode(&admin)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			log.Println("Admin not found")
-			_, err := coll.CreateUser(adminDetails.Email, adminDetails.Password)
-			log.Println(err)
-		} else {
-			log.Fatal(err)
-		}
-	} else {
-		log.Println("Admin found")
-	}
-}
-
-func UserColl() *UserCollection {
-	return coll
-}
-
-const collection = "users"
 const cost = 10
-
-func (coll *UserCollection) GetUser(email string) (*User, error) {
-	var user User
-
-	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: email}}).Decode(&user)
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
-func (coll *UserCollection) CreateUser(email, password string) (*User, error) {
-	var user User
-
-	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: email}}).Decode(&user)
-	if err != nil {
-		if err != mongo.ErrNoDocuments {
-			return nil, err
-		}
-	}
-
-	user = User{Email: email, CreatedAt: time.Now()}
-	user.MakePassword(password)
-
-	_, err = coll.InsertOne(context.TODO(), user)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
-func (coll *UserCollection) UpdateUser(user User) error {
-	filter := bson.D{{Key: "email", Value: user.Email}}
-	update := bson.D{{Key: "$set", Value: bson.D{{Key: "password", Value: user.Password}}}}
-	_, err := coll.UpdateOne(context.TODO(), filter, update)
-	return err
-}
 
 // User
 type User struct {
 	Email     string    `json:"email" bson:"email"`
-	CreatedAt time.Time `bson:"createdAt"`
+	CreatedAt time.Time `json:"-" bson:"createdAt"`
 	Password  string    `json:"-" bson:"password"`
 }
 

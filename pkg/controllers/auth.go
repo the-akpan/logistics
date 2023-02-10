@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"tracka/pkg/config"
-	"tracka/pkg/models"
+	"tracka/pkg/database"
 	"tracka/pkg/utils"
 )
 
@@ -41,7 +41,7 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	user, err := models.UserColl().GetUser(formStruct.Email)
+	user, err := database.UserColl().GetUser(formStruct.Email)
 	if err != nil || !user.CheckPassword(formStruct.Password) {
 		response.Message = "Invalid credentials"
 		res.WriteHeader(http.StatusUnauthorized)
@@ -70,7 +70,7 @@ func AuthLogout(res http.ResponseWriter, req *http.Request) {
 	cookie, _ := utils.GenerateCookie(nil)
 	http.SetCookie(res, cookie)
 
-	res.WriteHeader(http.StatusNoContent)
+	res.WriteHeader(http.StatusResetContent)
 	response.Message = "Logged out successfully"
 }
 
@@ -99,7 +99,7 @@ func AuthResetPassword(res http.ResponseWriter, req *http.Request) {
 	response.Message = "Password reset to default if user exists"
 	res.WriteHeader(http.StatusOK)
 
-	user, err := models.UserColl().GetUser(formStruct.Email)
+	user, err := database.UserColl().GetUser(formStruct.Email)
 	if err != nil {
 		return
 	}
@@ -107,7 +107,7 @@ func AuthResetPassword(res http.ResponseWriter, req *http.Request) {
 	defaultPasswod := config.Get().Admin.Password
 	user.MakePassword(defaultPasswod)
 
-	err = models.UserColl().UpdateUser(*user)
+	err = database.UserColl().UpdateUser(*user)
 	if err != nil {
 		response.Message = "Something went wrong"
 		res.WriteHeader(http.StatusInternalServerError)
