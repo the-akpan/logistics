@@ -11,6 +11,7 @@ func Init(router *mux.Router) {
 	api := router.PathPrefix("/api").Subrouter()
 	api.NotFoundHandler = http.HandlerFunc(notFound)
 	registerAuth(api)
+	registerOrders(api)
 
 	spa := spaHandler{
 		staticPath: config.Get().Static.StaticPath,

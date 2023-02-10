@@ -8,4 +8,5 @@ func Init() {
 	db := config.Get().Db
 
 	initUserColl(db)
+	initOrders(db)
 }

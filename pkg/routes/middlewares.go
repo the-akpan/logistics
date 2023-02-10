@@ -15,7 +15,7 @@ func RemoveSlash(next http.Handler) http.Handler {
 	})
 }
 
-func authRequired(next http.HandlerFunc) http.HandlerFunc {
+func authRequired(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		cookieGen := config.Get().Cookie
 		cookie, err := req.Cookie(cookieGen.Name)
