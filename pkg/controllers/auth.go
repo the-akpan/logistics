@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"tracka/pkg/config"
 	"tracka/pkg/models"
@@ -50,7 +49,11 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 	}
 
 	claims := utils.CookieClaim{Email: user.Email, UserAgent: req.UserAgent(), IP: req.RemoteAddr}
-	cookie := utils.GenerateCookie(claims)
+	cookie, err := utils.GenerateCookie(&claims)
+	if err != nil {
+		response.Message = "Something went wrong"
+		res.WriteHeader(http.StatusInternalServerError)
+	}
 
 	http.SetCookie(res, cookie)
 
@@ -60,45 +63,15 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 }
 
 func AuthLogout(res http.ResponseWriter, req *http.Request) {
-	log.Println("Hello")
 	response := utils.CreateResponse(res)
 
 	defer json.NewEncoder(res).Encode(response)
+
+	cookie, _ := utils.GenerateCookie(nil)
+	http.SetCookie(res, cookie)
 
 	res.WriteHeader(http.StatusNoContent)
 	response.Message = "Logged out successfully"
-}
-
-func AuthRequestReset(res http.ResponseWriter, req *http.Request) {
-	response := utils.CreateResponse(res)
-
-	defer json.NewEncoder(res).Encode(response)
-
-	var formStruct struct {
-		Email string
-	}
-
-	if !utils.DecodeRequest(formStruct, response, res, req) {
-		return
-	}
-
-	data := make(map[string]interface{})
-
-	switch email := formStruct.Email; {
-	case email == "":
-		data["email"] = fieldRequired
-	case !emailRX.MatchString(email):
-		data["email"] = "Invalid email"
-	}
-
-	response.Message = "Reset email sent if user exists"
-	res.WriteHeader(http.StatusOK)
-
-	_, err := models.UserColl().GetUser(formStruct.Email)
-	if err == nil {
-		// Send email
-		log.Println("Sending email to", formStruct.Email)
-	}
 }
 
 func AuthResetPassword(res http.ResponseWriter, req *http.Request) {

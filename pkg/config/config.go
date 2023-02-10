@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gorilla/securecookie"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -21,11 +22,17 @@ type Static struct {
 	StaticPath string
 }
 
+type Cookie struct {
+	Cookie *securecookie.SecureCookie
+	Name   string
+}
+
 type Config struct {
 	Db     *mongo.Database
 	PORT   string
 	Admin  *User
 	Static *Static
+	Cookie *Cookie
 }
 
 var config Config
@@ -44,6 +51,17 @@ func Init() {
 	config.PORT = configPORT()
 	config.Admin = getAdmin()
 	config.Static = loadStatic()
+	config.Cookie = &Cookie{}
+
+	secretKey := []byte(strings.TrimSpace(os.Getenv("SECRET_KEY")))
+	if len(secretKey) == 0 {
+		secretKey = securecookie.GenerateRandomKey(32)
+	}
+	config.Cookie.Cookie = securecookie.New(secretKey, nil)
+	config.Cookie.Name = os.Getenv("COOKIE_NAME")
+	if config.Cookie.Name == "" {
+		config.Cookie.Name = "logistics"
+	}
 }
 
 func connectDB() *mongo.Database {
