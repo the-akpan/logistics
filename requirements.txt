@@ -26,6 +26,7 @@ API:
   Dashboard:
   - List Orders ✔️
   - Add Order ✔️
-  - Edit Order (pending)
+  - Edit Order ✔️
   - List Order ✔️
-  - Edit Order Updates
+  - Add Order Update (pending)
+  - Edit Order Updates (pending)
