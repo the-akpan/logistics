@@ -1,5 +1,5 @@
 Pages:
-  Home: LandingPage ✔️
+  Home: LandingPage (pending)
   - Reference Provided
   - Contains sections explaining the business
   - Has a search field for tracking orders ✔️
@@ -25,7 +25,7 @@ API:
   - Reset-Password ✔️
   Dashboard:
   - List Orders ✔️
-  - Add Order (pending)
+  - Add Order ✔️
   - Edit Order (pending)
-  - List Order Updates
+  - List Order ✔️
   - Edit Order Updates
