@@ -14,8 +14,6 @@ export default function LoginForm() {
         email: email,
         password: pwd,
       });
-      localStorage.setItem("token", JSON.stringify(response?.data?.token));
-
       console.log(response);
     } catch (err) {
       console.log(err);
