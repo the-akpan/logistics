@@ -1,10 +1,11 @@
 import Container from "../../components/layouts/Container";
+import OrdersLayout from "../../components/layouts/OrdersLayout";
 
 export default function Dashboard() {
   return (
     <main>
       <Container>
-        <h2 className="text-3xl font-bold mt-12">Manage Orders</h2>
+        <OrdersLayout />
       </Container>
     </main>
   );
