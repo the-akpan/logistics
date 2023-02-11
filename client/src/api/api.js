@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://brighttimelogistics.xyz/";
+const BASE_URL = "https://brighttimelogistics.xyz/api/";
 
 export const URLS = {
   auth: {
@@ -17,21 +17,10 @@ export const Methods = {
 
 const config = {
   baseURL: BASE_URL,
+  withCredentials: true,
 };
 
-function getAuthConfig() {
-  const token = localStorage.getItem("token");
-
-  return {
-    ...config,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-}
-
 const api = axios.create(config);
-const authAPI = axios.create(getAuthConfig());
 
 export async function makeRequest(endpoint, method, params, isAuth = false) {
   let result = null;
