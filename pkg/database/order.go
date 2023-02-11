@@ -27,7 +27,7 @@ func initOrders(db *mongo.Database) {
 	MODES = append(MODES, "SHIP", "AIR", "TRAIN")
 
 	STATUS = make([]string, 0)
-	STATUS = append(STATUS, "CREATED", "IN_TRANSIT")
+	STATUS = append(STATUS, "CREATED", "IN_TRANSIT", "ON_HOLD", "DELIVERED")
 }
 
 type OrderCollection struct {
@@ -100,6 +100,11 @@ func (coll *OrderCollection) CreateOrder(data *models.OrderIn) (*models.Order, e
 	}
 
 	return &order, nil
+}
+
+func (coll *OrderCollection) UpdateOrder(order *models.Order) error {
+	_, err := coll.UpdateOne(context.TODO(), bson.D{{Key: "tracker", Value: order.Tracker}}, bson.D{{Key: "$set", Value: bson.D{{Key: "status", Value: order.Status}}}})
+	return err
 }
 
 func OrderColl() *OrderCollection {

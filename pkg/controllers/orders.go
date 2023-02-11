@@ -136,3 +136,54 @@ func OrderGet(res http.ResponseWriter, req *http.Request) {
 	response.Message = "Order found"
 	response.Data = order
 }
+
+func OrderStatusUpdate(res http.ResponseWriter, req *http.Request) {
+	response := utils.CreateResponse(res)
+	defer json.NewEncoder(res).Encode(response)
+	tracker := mux.Vars(req)["tracker"]
+
+	var formStruct struct {
+		Status string
+	}
+
+	if !utils.DecodeRequest(&formStruct, response, res, req) {
+		return
+	}
+
+	data := make(map[string]interface{})
+
+	formStruct.Status = strings.TrimSpace(formStruct.Status)
+	if formStruct.Status == "" {
+		data["status"] = fieldRequired
+	} else {
+		if status := utils.ContainsString(database.STATUS, formStruct.Status); status == "" {
+			data["status"] = fmt.Sprintf("Invalid status `%s`", formStruct.Status)
+		} else {
+			formStruct.Status = status
+		}
+	}
+
+	if len(data) > 0 {
+		response.Message = "Bad Request"
+		response.Error = data
+		res.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	order, err := database.OrderColl().GetOrder(tracker)
+	if err != nil {
+		response.Message = "Order not found"
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	order.Status = formStruct.Status
+	err = database.OrderColl().UpdateOrder(order)
+	if err != nil {
+		response.Message = "Could not update"
+		res.WriteHeader(http.StatusUnprocessableEntity)
+		return
+	}
+
+	response.Data = order
+}

@@ -12,6 +12,7 @@ func registerOrders(api *mux.Router) {
 	router.HandleFunc("", controllers.OrdersList).Methods("GET")
 	router.HandleFunc("", controllers.OrdersCreate).Methods("POST")
 	router.HandleFunc("/{tracker}", controllers.OrderGet).Methods("GET")
-	// router.HandleFunc("/:tracker/updates", controllers.OrderUpdateCreate).Methods("POST")
+	router.HandleFunc("/{tracker}", controllers.OrderStatusUpdate).Methods("PATCH")
+
 	router.Use(authRequired)
 }
