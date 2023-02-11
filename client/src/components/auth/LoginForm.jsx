@@ -2,7 +2,7 @@ import React from "react";
 
 export default function LoginForm() {
   return (
-    <form className="bg-slate-200 py-5 rounded-lg px-4 w-4/5 lg:w-2/5">
+    <form className="bg-slate-200 py-10 rounded-lg px-8 w-4/5 lg:w-2/5 shadow-2xl">
       <h3 className="font-bold text-2xl text-center text-slate-800 mb-6">
         Login
       </h3>

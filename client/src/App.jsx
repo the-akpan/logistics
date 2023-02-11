@@ -7,7 +7,7 @@ import { Dashboard, TrackingItem } from "./pages/cms";
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <>
       <Nav />
 
       <Routes>
@@ -20,7 +20,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </div>
+    </>
   );
 }
 
