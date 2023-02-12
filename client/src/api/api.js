@@ -22,23 +22,22 @@ const config = {
 
 const api = axios.create(config);
 
-export async function makeRequest(endpoint, method, params, isAuth = false) {
+export async function makeRequest(endpoint, method, params) {
   let result = null;
-  let request = isAuth ? api : authAPI;
 
   switch (method) {
     case Methods.GET:
-      request = request.get;
+      api.get;
       break;
     case Methods.POST:
-      request = request.post;
+      api.post;
       break;
     default:
       throw new Error("Unknown method " + method);
   }
 
   try {
-    const response = await request(endpoint, params);
+    const response = await api(endpoint, params);
     result = response.data;
   } catch (error) {
     result = error?.response?.data;
