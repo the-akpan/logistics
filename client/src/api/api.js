@@ -24,20 +24,21 @@ const api = axios.create(config);
 
 export async function makeRequest(endpoint, method, params) {
   let result = null;
+  let request;
 
   switch (method) {
     case Methods.GET:
-      api.get;
+      request = api.get;
       break;
     case Methods.POST:
-      api.post;
+      request = api.post;
       break;
     default:
       throw new Error("Unknown method " + method);
   }
 
   try {
-    const response = await api(endpoint, params);
+    const response = await request(endpoint, params);
     result = response.data;
   } catch (error) {
     result = error?.response?.data;
