@@ -3,14 +3,16 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-  <nav class="py-5 border-b shadow-lg">
-    <div class="container flex justify-between items-center">
-      <router-link class="text-xl p-0 m-0 h-100" to="/"
-        ><h1 class="text-2xl hover:underline">Go to site</h1>
-      </router-link>
+  <nav class="py-5 border-b shadow-lg w-full">
+    <div class="container w-full flex justify-end items-center">
       <button
-        class="bg-red-500 text-white py-3 px-3 rounded hover:scale-105 duration-200 active:scale-95"
+        class="flex items-center text-black/75 py-3 px-3 rounded hover:underline duration-200 active:scale-95"
       >
+        <img
+          class="mr-4 w-6 h-6"
+          src="../../../assets/svgs/logout.svg"
+          alt=""
+        />
         Logout
       </button>
     </div>

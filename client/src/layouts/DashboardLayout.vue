@@ -8,12 +8,14 @@ import {
 </script>
 
 <template>
-  <navbar-partial />
-  <side-nav-partial />
-  <main class="py-5">
-    <div class="container">
-      <router-view />
+  <main class="flex relative">
+    <side-nav-partial />
+
+    <div class="w-full">
+      <navbar-partial />
+      <div class="container">
+        <router-view />
+      </div>
     </div>
   </main>
-  <footer-partial />
 </template>
