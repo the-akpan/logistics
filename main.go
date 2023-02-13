@@ -27,10 +27,10 @@ func main() {
 	database.Init()
 
 	router := mux.NewRouter()
-	routes.Init(router)
+	handler := routes.Init(router)
 
 	server := &http.Server{
-		Handler:      routes.RemoveSlash(router),
+		Handler:      routes.RemoveSlash(handler),
 		Addr:         config.Get().PORT,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
