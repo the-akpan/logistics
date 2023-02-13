@@ -36,7 +36,7 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 
 	if len(data) > 0 {
 		response.Message = "Bad Request"
-		response.Error = data
+		response.Body = data
 		res.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -58,7 +58,7 @@ func AuthSignin(res http.ResponseWriter, req *http.Request) {
 	http.SetCookie(res, cookie)
 
 	response.Message = "Logged in successfully"
-	response.Data = user
+	response.Body = user
 	res.WriteHeader(http.StatusOK)
 }
 
@@ -94,6 +94,13 @@ func AuthResetPassword(res http.ResponseWriter, req *http.Request) {
 		data["email"] = fieldRequired
 	case !emailRX.MatchString(email):
 		data["email"] = "Invalid email"
+	}
+
+	if len(data) > 0 {
+		response.Message = "Bad Request"
+		response.Body = data
+		res.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	response.Message = "Password reset to default if user exists"

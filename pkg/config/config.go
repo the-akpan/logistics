@@ -28,11 +28,12 @@ type Cookie struct {
 }
 
 type Config struct {
-	Db     *mongo.Database
-	PORT   string
-	Admin  *User
-	Static *Static
-	Cookie *Cookie
+	Db         *mongo.Database
+	PORT       string
+	Admin      *User
+	Static     *Static
+	Cookie     *Cookie
+	CorsOrigin string
 }
 
 var config Config
@@ -62,6 +63,8 @@ func Init() {
 	if config.Cookie.Name == "" {
 		config.Cookie.Name = "logistics"
 	}
+
+	config.CorsOrigin = os.Getenv("CORS_ORIGIN")
 }
 
 func connectDB() *mongo.Database {

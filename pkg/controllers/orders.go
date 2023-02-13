@@ -47,7 +47,7 @@ func OrdersList(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	response.Data = orders
+	response.Body = orders
 }
 
 func OrdersCreate(res http.ResponseWriter, req *http.Request) {
@@ -101,7 +101,7 @@ func OrdersCreate(res http.ResponseWriter, req *http.Request) {
 
 	if len(data) > 0 {
 		response.Message = "Bad Request"
-		response.Error = data
+		response.Body = data
 		res.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -113,7 +113,7 @@ func OrdersCreate(res http.ResponseWriter, req *http.Request) {
 	}
 
 	response.Message = "Order Created"
-	response.Data = order
+	response.Body = order
 	res.WriteHeader(http.StatusCreated)
 }
 
@@ -134,7 +134,7 @@ func OrderGet(res http.ResponseWriter, req *http.Request) {
 	}
 
 	response.Message = "Order found"
-	response.Data = order
+	response.Body = order
 }
 
 func OrderStatusUpdate(res http.ResponseWriter, req *http.Request) {
@@ -165,7 +165,7 @@ func OrderStatusUpdate(res http.ResponseWriter, req *http.Request) {
 
 	if len(data) > 0 {
 		response.Message = "Bad Request"
-		response.Error = data
+		response.Body = data
 		res.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -185,5 +185,5 @@ func OrderStatusUpdate(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	response.Data = order
+	response.Body = order
 }
