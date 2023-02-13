@@ -1,0 +1,47 @@
+.container {
+  width: 95%;
+  margin-inline: auto;
+}
+
+@media screen and (min-width: 640px) {
+  .container {
+    max-width: 620px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 740px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media screen and (min-width: 1536px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+
+/* * {
+  outline: 1px solid green;
+} */
+
+#app {
+  min-height: 100vh;
+}
+
+footer {
+  position: sticky;
+  top: 100%;
+}

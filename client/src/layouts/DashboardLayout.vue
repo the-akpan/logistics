@@ -1,12 +1,19 @@
 <script setup>
 import { RouterView } from "vue-router";
-import { FooterPartial, NavbarPartial } from "../components/partials/dashboard";
-
-console.log("Rendered");
+import {
+  FooterPartial,
+  NavbarPartial,
+  SideNavPartial,
+} from "../components/partials/dashboard";
 </script>
 
 <template>
   <navbar-partial />
-  <router-view />
+  <side-nav-partial />
+  <main class="py-5">
+    <div class="container">
+      <router-view />
+    </div>
+  </main>
   <footer-partial />
 </template>
