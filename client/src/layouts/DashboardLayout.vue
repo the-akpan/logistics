@@ -1,7 +1,6 @@
 <script setup>
 import { RouterView } from "vue-router";
 import {
-  FooterPartial,
   NavbarPartial,
   SideNavPartial,
 } from "../components/partials/dashboard";

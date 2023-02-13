@@ -26,7 +26,7 @@ const lastIndex = navs.length - 1;
     class="fixed top-0 left-0 h-screen z-10 flex bg-black/50 transition-all duration-200 md:static md:bg-transparent"
     :class="showMenu ? 'w-screen md:w-1/3' : 'w-0 md:w-20'"
   >
-    <nav class="relative w-1/2 h-screen bg-blue-700 z-30 py-10 md:w-full">
+    <nav class="relative w-1/2 h-screen bg-blue-700 z-30 py-9 md:w-full">
       <ul
         class="absolute z-40 transition duration-200 h-full overflow-y-scroll overflow-x-hidden w-full"
         :class="showMenu ? 'block' : 'hidden md:block'"
@@ -57,7 +57,7 @@ const lastIndex = navs.length - 1;
         </li>
       </ul>
       <div
-        class="absolute top-0 mt-24 z-50 -right-10 md:-right-4 p-1 cursor-pointer border rounded flex items-center justify-center bg-blue-300"
+        class="absolute -top-[4rem] mt-24 z-50 -right-10 md:-right-4 p-1 cursor-pointer border rounded flex items-center justify-center bg-blue-300"
         @click="toggleMenu"
         :class="showMenu && 'bg-red-300'"
       >
