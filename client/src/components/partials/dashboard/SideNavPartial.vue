@@ -28,7 +28,7 @@ const lastIndex = navs.length - 1;
   >
     <nav class="relative w-1/2 h-screen bg-blue-700 z-30 py-9 md:w-full">
       <ul
-        class="absolute z-40 transition duration-200 h-full overflow-y-scroll overflow-x-hidden w-full"
+        class="absolute z-40 transition duration-200 h-100 overflow-y-scroll overflow-x-hidden w-full"
         :class="showMenu ? 'block' : 'hidden md:block'"
       >
         <li class="mb-14">
