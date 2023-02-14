@@ -17,7 +17,9 @@ function toggleMenu() {
 </script>
 
 <template>
-  <nav class="bg-white shadow border-b fixed h-[88px] top-0 left-0 right-0">
+  <nav
+    class="bg-white shadow border-b z-10 fixed h-[88px] top-0 left-0 right-0"
+  >
     <div
       class="container flex flex-col lg:flex-row items-center justify-between"
     >

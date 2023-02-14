@@ -7,8 +7,8 @@ console.log("Rendered");
 
 <template>
   <navbar-partial />
-  <div class="mt-[88px]">
+  <main class="mt-[88px]">
     <router-view />
-  </div>
+  </main>
   <footer-partial />
 </template>

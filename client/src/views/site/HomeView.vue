@@ -1,7 +1,10 @@
 <script setup>
-import { HomeLayout } from "../../layouts";
+import { JumbotronSection, ServicesSection } from "../../components/site";
 </script>
 
 <template>
-  <main>Home</main>
+  <div>
+    <jumbotron-section />
+    <services-section />
+  </div>
 </template>

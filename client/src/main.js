@@ -4,6 +4,7 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
+import "vue3-carousel/dist/carousel.css";
 import "./assets/css/index.css";
 import "./assets/css/style.css";
 
