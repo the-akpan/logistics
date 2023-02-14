@@ -3,5 +3,5 @@ import { HomeLayout } from "../../layouts";
 </script>
 
 <template>
-  <main>Home</main>
+  <main>Tracking</main>
 </template>

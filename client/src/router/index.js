@@ -1,13 +1,39 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { AuthLayout, DashboardLayout } from "../layouts";
+import { AuthLayout, DashboardLayout, HomeLayout } from "../layouts";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "",
-      name: "home",
-      component: () => import("../views/site/HomeView.vue"),
+      component: HomeLayout,
+      children: [
+        {
+          path: "/",
+          name: "index",
+          component: () => import("../views/site/HomeView.vue"),
+        },
+        {
+          path: "/about",
+          name: "about",
+          component: () => import("../views/site/AboutView.vue"),
+        },
+        {
+          path: "/services",
+          name: "services",
+          component: () => import("../views/site/ServicesView.vue"),
+        },
+        {
+          path: "/track",
+          name: "tracking",
+          component: () => import("../views/site/TrackingView.vue"),
+        },
+        {
+          path: "/contact-us",
+          name: "contact",
+          component: () => import("../views/site/ContactView.vue"),
+        },
+      ],
     },
     {
       path: "/auth",
@@ -33,7 +59,7 @@ const router = createRouter({
       children: [
         {
           path: "",
-          name: "index",
+          name: "dashboard",
           component: () => import("../views/dashboard/HomeView.vue"),
         },
         {
